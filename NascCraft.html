@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASCCRAFT | ROYAL EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #55ff55;
+            --danger: #ff5555;
+            --enchant: #aa00ff;
+            --dark: #050505;
+            --glass: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+            --cyan: #4ae3ff;
+            --silver: #e5e4e2;
+        }
+
+        body {
+            margin: 0; background: #050505; color: #fff;
+            font-family: 'Cairo', sans-serif; overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .mc-font { font-family: 'VT323', monospace; letter-spacing: 1px; }
+
+        /* HERO - متوافق مع جميع الشاشات */
+        .hero {
+            height: 50vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.85), #050505),
+                        url("https://wallpapercave.com/wp/wp2757874.jpg");
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-bottom: 5px solid var(--primary); text-align: center; padding: 20px;
+        }
+
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); margin: 0; color: var(--primary); text-shadow: 4px 4px #000; }
+        
+        .ip-box { 
+            background: rgba(0,0,0,0.8); border: 2px solid var(--primary); 
+            padding: 10px 30px; border-radius: 4px; margin-top: 15px;
+        }
+
+        /* NAVIGATION - مربعات ومتحركة */
+        nav {
+            position: sticky; top: 0; z-index: 1000; background: rgba(0,0,0,0.95);
+            display: flex; gap: 8px; padding: 12px; overflow-x: auto;
+            border-bottom: 2px solid var(--primary); backdrop-filter: blur(10px);
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 15px 15px;
+        }
+        nav::-webkit-scrollbar { display: none; }
+
+        .nav-link {
+            padding: 8px 20px; border: 1px solid #333; border-radius: 4px;
+            cursor: pointer; background: #0a0a0a; color: #666; white-space: nowrap; 
+            font-family: 'VT323'; font-size: 1.2rem; transition: 0.3s;
+        }
+        .nav-link.active { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); border-color: #fff; }
+
+        .container { width: 92%; max-width: 1200px; margin: 40px auto; min-height: 70vh; }
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.4s forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* قوانين الـ 20 */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .card { 
+            background: rgba(15,15,15,0.9); border: 1px solid var(--border); 
+            padding: 20px; border-radius: 8px; position: relative;
+        }
+        .card.important { border-right: 4px solid var(--danger); background: rgba(255,0,0,0.02); }
+        .important-tag { color: var(--danger); font-weight: bold; font-size: 0.8rem; }
+        .card h3 { margin: 5px 0; font-size: 1.4rem; color: var(--primary); }
+        .card.important h3 { color: var(--danger); }
+
+        /* قسم المالك - مرتب جداً */
+        .owner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .owner-card {
+            background: var(--glass); border: 1px solid var(--border);
+            border-right: 8px solid var(--acc); border-radius: 15px;
+            padding: 25px; backdrop-filter: blur(10px); text-align: center;
+        }
+        .owner-card h2 { font-size: 1.6rem; margin: 5px 0; color: #fff; }
+        .owner-rank { font-family: 'VT323'; font-size: 1.3rem; color: var(--acc); }
+
+        /* تحذيرات - تأثير التطوير */
+        .enchant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; }
+        .enchant-book {
+            background: linear-gradient(135deg, #1a0033, #050505);
+            border: 2px solid var(--enchant); padding: 25px; border-radius: 12px;
+            text-align: center; position: relative; overflow: hidden;
+            box-shadow: 0 0 10px rgba(170, 0, 255, 0.2);
+        }
+        .enchant-book::after {
+            content: ""; position: absolute; inset: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(170, 0, 255, 0.2) 50%, transparent 60%);
+            background-size: 200% 200%; animation: shine 3s infinite;
+        }
+        @keyframes shine { 0% { background-position: 200% 200%; } 100% { background-position: -200% -200%; } }
+        .enchant-book h2 { font-family: 'VT323'; font-size: 3rem; margin: 0; color: var(--enchant); text-shadow: 0 0 10px var(--enchant); }
+
+        /* SOON مشفر */
+        .soon-box { text-align: center; padding: 100px 20px; border: 2px dashed #222; border-radius: 15px; }
+        .encrypted-text { font-family: 'VT323'; letter-spacing: 5px; color: #333; }
+
+        footer { text-align: center; padding: 60px; opacity: 0.4; font-family: 'VT323'; font-size: 1.2rem; border-top: 1px solid #111; }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1 class="mc-font">NASCCRAFT</h1>
+        <div class="ip-box">
+            <span class="mc-font" style="letter-spacing: 3px; color: var(--primary);">§k SOON_ENCRYPTED §k</span>
+        </div>
+        <div class="mc-font" style="color: #aaa; margin-top: 10px;">JAVA | BEDROCK | PREVIEW</div>
+    </div>
+
+    <nav id="navbar">
+        <div class="nav-link active" data-target="rules">📜 القوانين</div>
+        <div class="nav-link" data-target="owner">👑 المالك</div>
+        <div class="nav-link" data-target="news">📢 الأخبار</div>
+        <div class="nav-link" data-target="punish">🔮 التحذيرات</div>
+        <div class="nav-link" data-target="punish-log">📝 سجل التحذيرات</div>
+        <div class="nav-link" data-target="blacklist">🚫 البلاك ليست</div>
+        <div class="nav-link" data-target="store">🛒 المتجر</div>
+        <div class="nav-link" data-target="ranks">💎 الرتب</div>
+        <div class="nav-link" data-target="map">🗺️ الخريطة</div>
+        <div class="nav-link" data-target="court">🏛️ القضاء</div>
+        <div class="nav-link" data-target="auction">⚖️ المزادات</div>
+    </nav>
+
+    <div class="container">
+
+        <section id="rules" class="content-section active">
+            <div class="grid">
+                <div class="card important"><span class="important-tag">⚠️ مهم جداً</span><h3>01. X-RAY</h3><p>ممنوع أي هاك أو ريسورس باك كاشف. (باند نهائي)</p></div>
+                <div class="card important"><span class="important-tag">⚠️ مهم جداً</span><h3>02. السرقة</h3><p>السرقة ممنوعة تماماً وتؤدي للطرد. (مهم)</p></div>
+                <div class="card"><h3>03. الاحترام</h3><p>السب والتنمر مرفوض تماماً.</p></div>
+                <div class="card"><h3>04. البناء</h3><p>يمنع بناء الأعمدة العشوائية المشوهة.</p></div>
+                <div class="card"><h3>05. المسافة</h3><p>اترك 50 بلوكة بينك وبين جارك. (مهم)</p></div>
+                <div class="card"><h3>06. الأشجار</h3><p>اقطع الشجرة كاملة.</p></div>
+                <div class="card"><h3>07. التشجير</h3><p>أعد زراعة الشتلات فوراً.</p></div>
+                <div class="card"><h3>08. الريدستون</h3><p>أي آلة تسبب لاغ سيتم حذفها.</p></div>
+                <div class="card"><h3>09. المزارع</h3><p>أعد زراعة ما تأخذ من المزارع العامة.</p></div>
+                <div class="card"><h3>10. التجارة</h3><p>النصب في المقايضات ممنوع.</p></div>
+                <div class="card"><h3>11. الثغرات</h3><p>استغلال جليتشات التكرار = حذف الحساب.</p></div>
+                <div class="card"><h3>12. القتل</h3><p>PVP مسموح فقط في الساحات المخصصة.</p></div>
+                <div class="card"><h3>13. النذر</h3><p>حافظ على تنظيم طرق النذر.</p></div>
+                <div class="card"><h3>14. الإعلانات</h3><p>نشر روابط سيرفرات أخرى ممنوع.</p></div>
+                <div class="card"><h3>15. الأسماء</h3><p>يمنع استخدام أسماء أدوات بذيئة.</p></div>
+                <div class="card"><h3>16. الأماكن العامة</h3><p>لا تبنِ فوق الطرق العامة.</p></div>
+                <div class="card"><h3>17. المقالب</h3><p>المقالب مسموحة بدون تخريب.</p></div>
+                <div class="card"><h3>18. الحيوانات</h3><p>لا تقتل حيوانات اللاعبين الآخرين.</p></div>
+                <div class="card"><h3>19. البلاغات</h3><p>التبليغ عبر ديسكورد السيرفر فقط.</p></div>
+                <div class="card"><h3>20. القرار النهائي</h3><p>كلمة المالك والإدارة هي الفصل.</p></div>
+            </div>
+        </section>
+
+        <section id="owner" class="content-section">
+            <div class="owner-grid">
+                <div class="owner-card" style="--acc: var(--cyan);">
+                    <div class="owner-rank">OWNER</div>
+                    <h2>نواف باخميس</h2>
+                    <div class="mc-font" style="color:var(--cyan)">FOUNDER & DEV</div>
+                </div>
+                <div class="owner-card" style="--acc: var(--silver);">
+                    <div class="owner-rank">DEPUTY</div>
+                    <h2>ملوك</h2>
+                    <div class="mc-font" style="color:var(--silver)">ADMINISTRATION</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="punish" class="content-section">
+            <div class="enchant-grid">
+                <div class="enchant-book"><h2>I</h2><p>تنبيه 1</p></div>
+                <div class="enchant-book"><h2>II</h2><p>تنبيه 2</p></div>
+                <div class="enchant-book"><h2>III</h2><p>سجن</p></div>
+                <div class="enchant-book"><h2>IV</h2><p>سحب موارد</p></div>
+                <div class="enchant-book" style="border-color:var(--danger)"><h2>V</h2><p>باند</p></div>
+            </div>
+        </section>
+
+        <section id="news" class="content-section">
+            <div class="card" style="text-align:center; border-color:var(--primary)">
+                <h3>📢 الأخبار الملكية</h3>
+                <p>تم صنع وبرمجة الموقع بالكامل من قِبل: <strong>نواف</strong></p>
+            </div>
+        </section>
+
+        <section id="punish-log" class="content-section"><div class="soon-box"><h2 class="encrypted-text mc-font">§k PUNISH_LOG_SOON §k</h2></div></section>
+        <section id="blacklist" class="content-section"><div class="soon-box"><h2 class="encrypted-text mc-font">§k BLACKLIST_SOON §k</h2></div></section>
+        <section id="store" class="content-section"><div class="soon-box"><h2 class="encrypted-text mc-font">§k STORE_SOON §k</h2></div></section>
+        <section id="ranks" class="content-section"><div class="soon-box"><h2 class="encrypted-text mc-font">§k RANKS_SOON §k</h2></div></section>
+        <section id="map" class="content-section"><div class="soon-box"><h2 class="encrypted-text mc-font">§k DYNMAP_SOON §k</h2></div></section>
+        <section id="court" class="content-section"><div class="soon-box"><h2 class="encrypted-text mc-font">§k COURT_SOON §k</h2></div></section>
+        <section id="auction" class="content-section"><div class="soon-box"><h2 class="encrypted-text mc-font">§k AUCTION_SOON §k</h2></div></section>
+
+    </div>
+
+    <footer>حقوق النشر والبرمجة محفوظة لـ نواف © 2025</footer>
+
+    <script>
+        const links = document.querySelectorAll(".nav-link");
+        const sections = document.querySelectorAll(".content-section");
+
+        links.forEach(link => {
+            link.onclick = () => {
+                links.forEach(l => l.classList.remove("active"));
+                link.classList.add("active");
+                sections.forEach(sec => {
+                    sec.classList.remove("active");
+                    if(sec.id === link.dataset.target) sec.classList.add("active");
+                });
+                window.scrollTo({top: 0, behavior: "smooth"});
+            }
+        });
+    </script>
+</body>
+</html>
